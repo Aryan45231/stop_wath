@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            color:white;
+            background-color: black;
+            box-sizing: border-box;
+            overflow-x: hidden;
+         
+            
+        }
+        .main_stopwatch_continer{
+            position: absolute;
+            top: 30px;
+            background-color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column  ;
+            color: white;
+           min-height: 100vh;
+           width: 100vw;
+            
+        }
+       
+        #h{
+        
+            font-size: 80px;
+           font-family: 'Courier New', Courier, monospace;
+            word-spacing: 0px;
+            color: white
+            
+        }
+        .controls{
+            margin-top: 30px;
+            width: 30vw;
+            display: flex;
+        
+            padding: 20px;
+            justify-content: space-between;
+        }
+        .controls button{
+          height: 90px;
+          width: 90px;
+          text-align: center;
+            border-radius: 50%;
+            padding: 20px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .lap{
+           border: none;
+            background-color: rgba(232, 190, 190, 0.415);
+            box-shadow: 0 0 20px rgba(234, 234, 234, 0.7);
+            opacity: .4;
+            font-weight: bold;
+        }
+        .start{
+            border: none;
+            background-color: rgba(41, 76, 15, 0.476);
+        
+            color: green
+        }
+
+        @media(max-width:700px){
+            #h{  
+                
+                font-size: 30px;
+                word-spacing: 5px;
+            }
+            .controls{
+                width: 80vw;
+                padding: 10px;
+            }
+            button{
+                height: 70px;
+                width: 70px;
+            }
+        }
+        #lap_container{
+            margin-top: 30px;
+            min-height: 500px;
+            font-size: 30px;
+        
+        }
+     #lap_container *{
+        border-bottom: 1px solid gray;
+        word-spacing: 2px;
+        font-size: 34px;
+        text-align: left;
+        padding: 0 0 5px 0;
+        margin-top: 10px;
+     }
+    </style>
+</head>
+<body>
+   <div class="main_stopwatch_continer">
+       <label id="h">
+         00 : 00 : 00
+       </label>
+       <div class="controls">
+           <button class="lap"  >
+               LAP
+           </button>
+           <button class="start" onclick="start()">
+                START
+           </button>
+       </div>
+
+
+       <div id="lap_container">
+
+       </div>
+   </div>
+
+</body>
+<script>
+    let ss=0
+    let mm=0
+    let ms=0
+    let flag=0
+    document.getElementById("h").innerText=`0${mm}:0${ss}:0${ms}`
+    const stop=()=>{
+  clearInterval(flag)
+  const st=document.getElementsByClassName("start")[0]
+ st.innerHTML="START"
+ st.style.backgroundColor="rgba(41, 76, 15, 0.476)"
+ st.style.color="green"
+ st.setAttribute("onclick", "start()")
+ const lp=document.getElementsByClassName("lap")[0]
+ lp.setAttribute("onclick", "reset()")
+ lp.innerHTML="RESET"
+ lp.disabeled=false
+
+}
+ const start=()=>{
+
+    const st=document.getElementsByClassName("start")[0]
+ st.innerHTML="STOP"
+st.setAttribute("onclick", "stop()")
+  st.style.backgroundColor="rgba(113, 21, 21, 0.39)"
+  st.style.color="red"
+  
+  console.log(st)
+  flag= setInterval(()=>{
+  ms++
+   
+  
+if(ms==100){
+ ms=0;
+ ss++
+
+ if(ss==60){
+     ss=0;
+     mm++ 
+ }
+}
+if(ms<10){
+    ms=`0${ms}`
+}
+
+if(mm<10 && ss<10){
+    document.getElementById("h").innerText=`0${mm}:0${ss}:${ms}`
+}
+else if(mm<10){
+    document.getElementById("h").innerText=`0${mm}:${ss}:${ms}`
+}else{
+    document.getElementById("h").innerText=`${mm}:${ss}:${ms}`
+}
+   
+ }, 10)
+ const lp=document.getElementsByClassName("lap")[0]
+ lp.setAttribute("onclick", "lap()")
+ lp.innerHTML="LAP"
+ lp.disabeled=true
+ 
+ 
+ }
+ const lap=()=>{
+  
+    const lap_container= document.getElementById("lap_container")
+    const lap_data= document.createElement("div")
+    console.log(lap_data)
+
+
+
+
+     if(mm<10 && ss<10){
+        lap_data.innerText=`0${mm}:0${ss}:${ms}`
+}
+else if(mm<10){
+    lap_data.innerText=`0${mm}:${ss}:${ms}`
+
+}else{
+    lap_data.innerText=`${mm}:${ss}:${ms}`
+}
+
+    lap_container.appendChild(lap_data)
+ }
+
+const reset=()=>{
+    location.reload()
+  
+}
+
+</script>
+</html>
